@@ -1,0 +1,14 @@
+{
+	"read" : {
+	    "host"     : "localhost",
+	    "database" : "blog",
+	    "user"     : "root",
+	    "password" : "123"
+	},
+	"write" : {
+	    "host"     : "localhost",
+	    "database" : "blog",
+	    "user"     : "root",
+	    "password" : "123"
+	}
+}

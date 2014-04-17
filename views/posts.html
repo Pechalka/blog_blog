@@ -1,0 +1,8 @@
+<% extend 'layout.html' %>
+
+
+<ul>
+		<% for p in @model : %>
+		<li><a href="post/<%- p.id %>"><%- p.title %></a></li>
+		<% end %>
+	</ul>

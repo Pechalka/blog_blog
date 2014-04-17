@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="ko/template" id="edit-template">
+	<input data-bind="value : title"/>
+
+	<textarea rows="4" cols="50" data-bind="value : content"> 
+	</textarea>
+
+	<a href data-bind="click : save">save</a>
+
+	</script>
+
+
+	<script type="ko/template" id="list-template">
+list
+	</script>
+
+</head>
+
+<body >
+<a href data-bind="click : list_click">list</a>
+<a href data-bind="click : edit_click">edit</a>
+
+<div data-bind="with: page">
+<div data-bind="template : { name : template }">
+</div>
+</body>
+</div>
+<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="lib/knockout.js/knockout.js"></script>
+
+<script type="text/javascript" src="app.js"></script>
+</html>
