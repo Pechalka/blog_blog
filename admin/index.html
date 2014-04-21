@@ -3,40 +3,87 @@
 <head>
 	<title></title>
 
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+
 	<script type="ko/template" id="edit-template">
-	<input data-bind="value : title"/>
+<div id="edit">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Title</label>
+    <input data-bind="value : title" type="text" class="form-control" id="exampleInputEmail1" placeholder="title">
+  </div>
 
-	<textarea rows="4" cols="50" data-bind="value : content"> 
-	</textarea>
+    <div class="form-group">
+    <label for="exampleInputEmail1">Content</label>
+<textarea data-bind="value : content" class="form-control" rows="8"></textarea>
 
-	<a href data-bind="click : save">save</a>
+  </div>
+  <input type="text" value="mysql" data-role="tagsinput" placeholder="Add tags" />
+  <br/>
+  <button data-bind="click : submit" type="submit" class="btn btn-default">Save</button>
+</div>
 
 	</script>
 
 
 	<script type="ko/template" id="list-template">
-	<ul data-bind="foreach: models">
-    <li>        
-        <span data-bind="text: title"> </span>
-        <a href="#" data-bind="click: $parent.removePost">Remove</a>
-        <a href="#" data-bind="attr : { href : '#/edit/' + id }">Edit</a>
-    </li>
-	</ul>
+
+<div >
+<table class="table">
+        <thead>
+          <tr>
+            <th>title</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody data-bind="foreach : models">
+          <tr>
+            <td data-bind="text : title"></td>
+            <td>
+      <a class="btn btn-default btn-xs" href="#" data-bind="attr : { href : '#/edit/' + id }">Edit</a>
+       
+     <a class="btn btn-danger btn-xs" href="#" data-bind="click: $parent.removePost">Remove</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>
 	</script>	
 
 </head>
 
 <body >
-<a href="#/list">list</a>
-<a href="#/new">new post</a>
+<div class="container">
+<ul class="nav nav-pills">
+  <li data-bind="css : { 'active' : page_url() == 'list'}"><a href="#/list">list</a></li>
+  <li data-bind="css : { 'active' : page_url() == 'details'}"><a href="#/new">new post</a></li>
+   <li data-bind="css : { 'tags' : page_url() == 'details'}"><a href="#/tags">tags</a></li>
+</ul>
 
-<div data-bind="with: page">
-<div data-bind="template : { name : template }">
+	<div data-bind="with: page" class="row">
+	<div data-bind="template : { name : template }" class="col-md-offset-2 col-md-3">
+	</div>
+
 </div>
 </body>
 </div>
 <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="lib/knockout.js/knockout.js"></script>
+
+<!-- <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+ -->
+
+<!-- <script src="lib/bootstrap-tagsinput/lib/bootstrap/js/bootstrap.js"></script> -->
+
+<!-- <script src="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-3.0/js/bootstrap.min.js"></script> -->
+
+<script src="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-2.3.2/js/bootstrap.min.js"></script>
+
+<script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
 
 <script type="text/javascript" src="app.js"></script>
 </html>

@@ -31,6 +31,9 @@ app.get('/api/posts/:id', posts.readOne);
 app.put('/api/posts/:id', posts.update);
 app.delete('/api/posts/:id', posts.remove);
 
+app.get('/api/tags', function(req, res){
+	res.json(['mysql', 'java', 'javascrit', 'mongodb']);
+})
 
 http.createServer(app).listen(3000, function(){
   console.log('Express server listening on port 3000');

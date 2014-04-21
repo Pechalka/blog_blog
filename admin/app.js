@@ -6,9 +6,16 @@ var Edit = function(id){
 	self.title = ko.observable();
 	self.content = ko.observable();
 
-	var clean = function(){
-		self.title('');
-		self.content('');
+	self.tags = ko.observableArray([]);
+
+//	self.tagsAsString = ko.ob
+
+
+	// self.submit = function(){
+	// 	return false;
+	// }
+
+	var redirect = function(){
 		window.location.href = "#/list";	
 	}
 
@@ -19,25 +26,35 @@ var Edit = function(id){
 		})
 	}
 
-	self.save = function(){
+	self.submit = function(){
+		debugger
 		var req = {			
 			title : self.title(),
 			content : self.content()
 		}
 
 		if(!id){
-			$.post('/api/posts', req, clean);
+			$.post('/api/posts', req, redirect);
 		}else{
 			$.ajax({
 			url : '/api/posts/'+id,
 			data : req,
 			type : 'PUT',
-			success : function(){
-				alert('success');
-			}
+			success : redirect
 		})
 
 		}
+	}
+
+	self.attach = function(){
+		$('#edit input[data-role=tagsinput]').tagsinput({
+			freeInput : false,
+	    	typeahead: {
+		        source: function (query, process) {
+		            return $.get('/api/tags');
+		        }
+	        }
+		});
 	}
 
 	self.template = 'edit-template';
@@ -67,6 +84,7 @@ var List = function(){
 }
 
 var app = {
+	page_url : ko.observable('list'),
 	page : ko.observable(null),
 	list_click : function(){
 		app.page(new List());
@@ -78,11 +96,22 @@ var app = {
 
 
 var procces = function(hash){
-	if (hash == '/list' || hash == '') app.page(new List);
-	if (hash == '/new') app.page(new Edit(null));
+	if (hash == '/list' || hash == '') {
+		app.page(new List);
+		app.page_url('list');
+
+	}
+	if (hash == '/new') {
+		app.page(new Edit(null));
+		app.page_url('details');
+	}
 	if (hash.indexOf('/edit')!=-1) {
 		app.page(new Edit(hash.replace('/edit/', '')))
+		app.page_url('details');
 	}
+	
+	if (app.page() || app.page().attach)
+		app.page().attach()
 }
 
 $(function(){
@@ -96,4 +125,6 @@ $(function(){
 	}
 	$(window).on('hashchange', hashchange)
 	hashchange();
+
+	
 })
