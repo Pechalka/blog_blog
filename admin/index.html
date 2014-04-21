@@ -15,8 +15,14 @@
 
 
 	<script type="ko/template" id="list-template">
-list
-	</script>
+	<ul data-bind="foreach: models">
+    <li>        
+        <span data-bind="text: title"> </span>
+        <a href="#" data-bind="click: $parent.removePost">Remove</a>
+        <a href="#" data-bind="click: $parent.editPost">Edit</a>
+    </li>
+	</ul>
+	</script>	
 
 </head>
 

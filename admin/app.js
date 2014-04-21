@@ -34,7 +34,7 @@ var Edit = function(id){
 			success : function(){
 				alert('success');
 			}
-			})
+		})
 
 		}
 	}
@@ -45,7 +45,28 @@ var Edit = function(id){
 var List = function(){
 	var self = this;
 
-	self.template = 'list-template';
+	self.template = 'list-template';	
+
+	self.models = ko.observableArray([]);
+
+	$.get('/api/posts', function(data){
+		ko.utils.arrayPushAll(self.models, data);		
+	})
+
+    self.removePost = function() {
+    	self.models.remove(this);
+    	$.ajax({
+			url : '/api/posts/'+this.id,			
+			type : 'DELETE',
+			success : function(){
+				
+			}
+		})       
+    }
+
+    self.editPost = function(){
+    	app.page(new Edit(this.id));
+    }
 }
 
 var app = {
