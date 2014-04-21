@@ -8,7 +8,8 @@ var Edit = function(id){
 
 	var clean = function(){
 		self.title('');
-		self.content('')	
+		self.content('');
+		window.location.href = "#/list";	
 	}
 
 	if(id){
@@ -63,10 +64,6 @@ var List = function(){
 			}
 		})       
     }
-
-    self.editPost = function(){
-    	app.page(new Edit(this.id));
-    }
 }
 
 var app = {
@@ -80,7 +77,23 @@ var app = {
 }
 
 
+var procces = function(hash){
+	if (hash == '/list' || hash == '') app.page(new List);
+	if (hash == '/new') app.page(new Edit(null));
+	if (hash.indexOf('/edit')!=-1) {
+		app.page(new Edit(hash.replace('/edit/', '')))
+	}
+}
+
 $(function(){
 	ko.applyBindings(app);
 	app.page(new List())
+
+	var hashchange = function() {
+		var hash = window.location.hash.replace(/^#/, '');
+		procces(hash);
+
+	}
+	$(window).on('hashchange', hashchange)
+	hashchange();
 })

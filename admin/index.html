@@ -19,7 +19,7 @@
     <li>        
         <span data-bind="text: title"> </span>
         <a href="#" data-bind="click: $parent.removePost">Remove</a>
-        <a href="#" data-bind="click: $parent.editPost">Edit</a>
+        <a href="#" data-bind="attr : { href : '#/edit/' + id }">Edit</a>
     </li>
 	</ul>
 	</script>	
@@ -27,8 +27,8 @@
 </head>
 
 <body >
-<a href data-bind="click : list_click">list</a>
-<a href data-bind="click : edit_click">edit</a>
+<a href="#/list">list</a>
+<a href="#/new">new post</a>
 
 <div data-bind="with: page">
 <div data-bind="template : { name : template }">
