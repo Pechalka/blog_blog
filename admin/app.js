@@ -27,38 +27,51 @@ var Edit = function(id){
 	}
 
 	self.submit = function(){
-		debugger
+		
+		var tags = $("#tags").val().split(',');		
+
 		var req = {			
 			title : self.title(),
-			content : self.content()
+			content : self.content(),
+			tags : tags
 		}
 
 		if(!id){
 			$.post('/api/posts', req, redirect);
 		}else{
 			$.ajax({
-			url : '/api/posts/'+id,
-			data : req,
-			type : 'PUT',
-			success : redirect
-		})
-
-		}
+				url : '/api/posts/'+id,
+				data : req,
+				type : 'PUT',
+				success : redirect
+			})
+		}	
 	}
 
 	self.attach = function(){
-		$('#edit input[data-role=tagsinput]').tagsinput({
-			freeInput : false,
-	    	typeahead: {
-		        source: function (query, process) {
-		            return $.get('/api/tags');
+		$.get('/api/tags', function(data){
+			var tags = data.map(function(el){
+				return el.title;
+			})
+			$('#edit input[data-role=tagsinput]').tagsinput({
+				freeInput : false,
+		    	typeahead: {
+			        source: tags
 		        }
-	        }
-		});
+			});
+		})
 	}
 
 	self.template = 'edit-template';
 }
+
+var Tag = function(data){
+	var self = this;
+	self.title = data.title;
+	self.selected = ko.observable(false);
+
+} 
+
 
 var List = function(){
 	var self = this;
@@ -66,21 +79,52 @@ var List = function(){
 	self.template = 'list-template';	
 
 	self.models = ko.observableArray([]);
+	self.tags = ko.observableArray([]);
+	self.type = ko.observable();
 
-	$.get('/api/posts', function(data){
-		ko.utils.arrayPushAll(self.models, data);		
-	})
-
-    self.removePost = function() {
-    	self.models.remove(this);
+    self.removePost = function(el) {
+    	debugger;
     	$.ajax({
-			url : '/api/posts/'+this.id,			
+			url : '/api/posts/'+el._id,			
 			type : 'DELETE',
 			success : function(){
-				
+				self.models.remove(el);
 			}
 		})       
     }
+
+
+    self.attach = function(){
+		$.get('/api/tags', function(data){
+			var tags = data.map(function(el){
+				return new Tag(el);
+			})
+			self.tags(tags);
+		});
+    }
+
+
+    var init =  ko.computed(function(){
+    	var data = ko.toJS(self.tags);
+    	var type = self.type();
+    	
+    	if (!init) return;
+    	    	
+    	var params = data.filter(function(el){
+    		return el.selected;
+    	}).map(function(el){
+    		return el.title;
+    	})
+
+    	var q = {
+    		type : type,
+    		titles : params
+    	}
+    	
+    	$.post('/api/posts/findByTag', q, self.models);
+    })
+
+
 }
 
 var app = {
@@ -110,7 +154,7 @@ var procces = function(hash){
 		app.page_url('details');
 	}
 	
-	if (app.page() || app.page().attach)
+	if (app.page() && app.page().attach)
 		app.page().attach()
 }
 

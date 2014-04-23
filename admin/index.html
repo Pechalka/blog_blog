@@ -19,7 +19,7 @@
 <textarea data-bind="value : content" class="form-control" rows="8"></textarea>
 
   </div>
-  <input type="text" value="mysql" data-role="tagsinput" placeholder="Add tags" />
+  <input type="text" id="tags" value="" data-role="tagsinput" placeholder="Add tags" />
   <br/>
   <button data-bind="click : submit" type="submit" class="btn btn-default">Save</button>
 </div>
@@ -29,7 +29,21 @@
 
 	<script type="ko/template" id="list-template">
 
-<div >
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">Posts</div>
+  <select data-bind="options : ['or', 'and'], value : type">
+
+  </select>
+  <div data-bind="foreach : tags" class="panel-body">
+    
+      <label>
+      <!-- ko text : title --><!-- /ko -->
+        <input data-bind="checked : selected" type="checkbox"/>
+      </label>    
+  </div>
+
 <table class="table">
         <thead>
           <tr>
@@ -41,15 +55,16 @@
           <tr>
             <td data-bind="text : title"></td>
             <td>
-      <a class="btn btn-default btn-xs" href="#" data-bind="attr : { href : '#/edit/' + id }">Edit</a>
+      <a class="btn btn-default btn-xs" href="#" data-bind="attr : { href : '#/edit/' + _id }">Edit</a>
        
      <a class="btn btn-danger btn-xs" href="#" data-bind="click: $parent.removePost">Remove</a>
             </td>
           </tr>
         </tbody>
       </table>
-
 </div>
+
+
 	</script>	
 
 </head>
@@ -63,7 +78,7 @@
 </ul>
 
 	<div data-bind="with: page" class="row">
-	<div data-bind="template : { name : template }" class="col-md-offset-2 col-md-3">
+	<div data-bind="template : { name : template }" class="col-md-offset-2 col-md-5">
 	</div>
 
 </div>

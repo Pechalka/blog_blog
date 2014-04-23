@@ -10,5 +10,6 @@
 	    "database" : "blog",
 	    "user"     : "root",
 	    "password" : "123"
-	}
+	},
+	"mongo_url": "mongodb://localhost/blog"
 }
