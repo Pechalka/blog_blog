@@ -7,6 +7,54 @@
 
 <link rel="stylesheet" type="text/css" href="lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
 
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+<script type="ko/template" id="login-template">
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Please sign in</h3>
+        </div>
+          <div class="panel-body">
+            <form accept-charset="UTF-8" role="form" data-bind="submit : login">
+                    <fieldset>
+                <div class="form-group">
+                  <input data-bind="value : email" class="form-control" placeholder="E-mail" name="email" type="text">
+              </div>
+              <div class="form-group">
+                <input data-bind="value : password" class="form-control" placeholder="Password" name="password" type="password" value="">
+              </div>
+              <div class="checkbox">
+                  <label>
+                    <input name="remember" type="checkbox" value="Remember Me"> Remember Me
+                  </label>
+                </div>
+              <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+            </fieldset>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+</script>
+
+  <script type="ko/template" id="app-template">
+  <ul class="nav nav-pills">
+  <li data-bind="css : { 'active' : page_url() == 'list'}"><a href="#/list">list</a></li>
+  <li data-bind="css : { 'active' : page_url() == 'details'}"><a href="#/new">new post</a></li>
+   <li data-bind="css : { 'tags' : page_url() == 'details'}"><a href="#/tags">tags</a></li>
+</ul>
+
+<a href="" class="btn btn-danger btn-xs" data-bind="click : logout">Logout</a>
+
+  <div data-bind="with: content" class="row">
+  <div data-bind="template : { name : template }" class="col-md-offset-2 col-md-5">
+  </div>
+</script>
+
 	<script type="ko/template" id="edit-template">
 <div id="edit">
   <div class="form-group">
@@ -70,17 +118,9 @@
 </head>
 
 <body >
-<div class="container">
-<ul class="nav nav-pills">
-  <li data-bind="css : { 'active' : page_url() == 'list'}"><a href="#/list">list</a></li>
-  <li data-bind="css : { 'active' : page_url() == 'details'}"><a href="#/new">new post</a></li>
-   <li data-bind="css : { 'tags' : page_url() == 'details'}"><a href="#/tags">tags</a></li>
-</ul>
-
-	<div data-bind="with: page" class="row">
-	<div data-bind="template : { name : template }" class="col-md-offset-2 col-md-5">
-	</div>
-
+<div class="container" data-bind="with: page">
+  <!-- ko template : { name : template } -->
+  <!-- /ko -->
 </div>
 </body>
 </div>
@@ -99,6 +139,8 @@
 <script src="http://timschlechter.github.io/bootstrap-tagsinput/examples/bootstrap-2.3.2/js/bootstrap.min.js"></script>
 
 <script src="http://timschlechter.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+<script type="text/javascript" src="lib/knockout-validation/Dist/knockout.validation.min.js"></script>
 
+<script type="text/javascript" src="app/AuthService.js"></script>
 <script type="text/javascript" src="app.js"></script>
 </html>

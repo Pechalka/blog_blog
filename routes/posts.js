@@ -1,21 +1,20 @@
 var db = require('../db/mongo');
 
 var renderOne = function(req, res){
-	read.query('SELECT * FROM posts WHERE id=? ', [req.params.id], function(err, rows){
-		res.render('post', { model : rows[0] });		
-	})
-	
+	db.Posts.findById(req.params.id, function(err, rows){
+		res.render('post', { model : rows });		
+	})	
 }
 
 var update = function(req, res){
-	write.query('UPDATE posts SET ?  WHERE id = ' + req.params.id , req.body, function(){
-		res.json('ok');
-	})
+	db.Posts.findByIdAndUpdate(req.params.id, req.body, function(err, result){
+		res.send(204);
+	})	
 }
 
 var remove = function(req, res){
 	db.Posts.findByIdAndRemove(req.params.id, function(err){
-		res.json("ok");
+		res.send(204);
 	})
 }
 
@@ -26,19 +25,17 @@ var readAll = function(req, res){
 }
 
 var ok = function(req, res){
-	res.json('ok');
+	res.send(204);
 }
 
 var readOne = function(req, res){
-	console.log(req.params.id);
-	read.query('SELECT * FROM posts WHERE id=? ', [req.params.id], function(err, rows){
-		console.log(rows);
-		res.json(rows[0]);		
+	db.Posts.findById(req.params.id, function(err, rows){
+		res.json(rows);
 	})
 }
 
 var renderAll = function(req, res){
-	read.query('select * from posts', function(e, rows){
+	db.Posts.find(function(e, rows){
 		res.render('posts', { model : rows });
 	})
 }

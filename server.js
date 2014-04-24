@@ -15,6 +15,10 @@ app.use(express.favicon());
 app.use(express.bodyParser());
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
+app.use(express.cookieParser());
+app.use(express.session({
+    secret : 'asxcfrgth' 
+}));
 
 app.use(app.router);
 
@@ -23,6 +27,7 @@ app.use(app.router);
 
 var posts = require('./routes/posts');
 var tags = require('./routes/tags');
+var users = require('./routes/users');
 
 app.get('/', posts.renderAll)
 app.get('/posts', posts.renderAll)
@@ -39,6 +44,10 @@ app.post('/api/posts/findByTag', posts.findByTag);
 app.get('/api/tags/:title', tags.readByTitle);
 
 app.get('/api/tags', tags.findAll);
+
+app.post('/api/user/login', users.login);
+app.get('/api/user/session', users.session);
+app.post('/api/user/logout', users.logout);
 
 http.createServer(app).listen(3000, function(){
   console.log('Express server listening on port 3000');

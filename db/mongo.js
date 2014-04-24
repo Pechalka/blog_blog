@@ -2,6 +2,11 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
+var Users = new Schema({
+	email : { type : String, require : true},
+	password : { type : String, require : true}
+})
+
 var Tags = new Schema({
 	title : { type : String, require: true}
 })
@@ -17,6 +22,7 @@ var db = {};
 
 db.Tags = mongoose.model('Tags', Tags);
 db.Posts = mongoose.model('Posts', Posts);
+db.Users = mongoose.model('Users', Users);
 
 
 db.connect = function(cb) {
